@@ -39,12 +39,16 @@
     "test:coverage": "jest --coverage",
     "types": "rimraf types && tsc --declaration --emitDeclarationOnly --outDir types"
   },
-  "dependencies": {},
+  "dependencies": {
+    "camelcase": "^5.0.0",
+    "he": "^1.2.0",
+    "htm": "^2.0.0",
+    "style-to-object": "^0.2.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@marp-team/marp-core": "^0.6.0",
-    "@storybook/addon-actions": "^4.1.11",
-    "@storybook/addon-links": "^4.1.11",
+    "@storybook/addon-knobs": "^4.1.11",
     "@storybook/addons": "^4.1.11",
     "@storybook/react": "^4.1.11",
     "@types/enzyme": "^3.1.17",

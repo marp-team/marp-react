@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme'
 import React from 'react'
-import Hello from '../src/index'
+import Marp from '../src/index'
 
-describe('Hello', () => {
-  it('renders button', () => {
-    const hello = shallow(<Hello />)
-    expect(hello.find('button')).toHaveLength(1)
+describe('Marp', () => {
+  it('renders passed Markdown', () => {
+    const marp = shallow(<Marp markdown="# Hello" />)
+    expect(marp.find('h1')).toHaveLength(1)
   })
 })
