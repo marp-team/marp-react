@@ -1,0 +1,24 @@
+extends:
+  - airbnb
+  - plugin:@typescript-eslint/recommended
+  - prettier
+  - prettier/@typescript-eslint
+
+parserOptions:
+  project: ./tsconfig.json
+
+plugins:
+  - react-hooks
+
+rules:
+  import/no-extraneous-dependencies: off
+  import/no-unresolved: off
+  import/order:
+    - error
+    - newlines-between: never
+  react/jsx-filename-extension:
+    - error
+    - extensions:
+        - jsx
+        - tsx
+  react-hooks/rules-of-hooks: error
