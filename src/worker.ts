@@ -1,4 +1,5 @@
 import { Marp, MarpOptions } from '@marp-team/marp-core'
+import { parse } from './parser'
 
 const identifier = 'marp'
 
@@ -36,9 +37,15 @@ export default function initialize() {
   return listen(worker, {
     render: (markdown: string, opts: MarpOptions) => {
       const marp = new Marp(opts)
-      const rendered = marp.render(markdown, { htmlAsArray: true })
+      const { html, css, comments } = marp.render(markdown, {
+        htmlAsArray: true,
+      })
 
-      send(worker, MarpWorkerCommand.Render, rendered)
+      send(worker, MarpWorkerCommand.Render, {
+        html: html.map(h => parse(h)),
+        css,
+        comments,
+      })
     },
   })
 }

@@ -1,48 +1,53 @@
 import { storiesOf } from '@storybook/react'
-import { withKnobs, text } from '@storybook/addon-knobs'
-import React from 'react'
+import React, { useState } from 'react'
 import Worker from './marp.worker'
 import { MarpWorker } from '../src/index'
 
 const worker = new Worker()
 
+const Editor: React.FC<{
+  children: (buffer: string) => any
+  markdown?: string
+}> = props => {
+  const { children, markdown } = props
+  const [buffer, setBuffer] = useState(markdown || '')
+  const handleChange = e => setBuffer(e.target.value)
+
+  return (
+    <div style={{ display: 'flex', height: '500px' }}>
+      <textarea value={buffer} onChange={handleChange} style={{ flex: 1 }} />
+      <div style={{ flex: 1, overflowY: 'auto' }}>{children(buffer)}</div>
+    </div>
+  )
+}
+
 storiesOf('MarpWorker', module)
-  .addDecorator(withKnobs({ escapeHTML: false }))
   .add('Basic usage', () => (
-    <MarpWorker
-      worker={worker}
-      markdown={text('Markdown', '# Hello, world!')}
-    />
-  ))
-  .add('Multiple slides', () => (
-    <MarpWorker
-      worker={worker}
-      markdown={text('Markdown', '# Page 1\n\n---\n\n# Page 2')}
-    />
-  ))
-  .add('Theme support', () => (
-    <MarpWorker
-      worker={worker}
-      markdown={text('Markdown', '<!-- theme: gaia -->\n\n# Theme support')}
-    />
-  ))
-  .add('Custom renderer', () => (
-    <MarpWorker
-      worker={worker}
-      markdown={text(
-        'Markdown',
-        '# Page 1\n\n<!-- Comment (for presenter notes) -->\n\n---\n\n![bg](#fff8f0)\n\n# Page 2'
-      )}
+    <Editor
+      markdown={`
+# MarpWorker renderer
+
+This renderer is using Web Worker to convert Marp Markdown.
+    `.trim()}
     >
-      {slides =>
-        slides.map(({ slide, comments }, i) => (
-          <div key={i} style={{ margin: '40px' }}>
-            <div style={{ boxShadow: '0 5px 10px #ccc' }}>{slide}</div>
-            {comments.map((comment, ci) => (
-              <p key={ci}>{comment}</p>
-            ))}
-          </div>
-        ))
-      }
-    </MarpWorker>
+      {markdown => <MarpWorker markdown={markdown} worker={worker} />}
+    </Editor>
   ))
+  .add('Too large markdown', () => {
+    let markdown = `# Too large markdown
+
+This deck has 200 math typesettings, but it has not blocked UI by conversion.
+
+Besides, it still keeps blazing-fast preview by frame-skipped rendering. Try typing fast!
+
+---
+<!-- _color: #ddd -->
+`
+    for (let i = 0; i < 200; i += 1) markdown += '\n$y=ax^2+bx+c$'
+
+    return (
+      <Editor markdown={markdown}>
+        {markdown => <MarpWorker markdown={markdown} worker={worker} />}
+      </Editor>
+    )
+  })

@@ -30,11 +30,17 @@ const html = htm.bind((type: string, props, ...children) => {
     newProps.style = objStyle
   }
 
-  return createElement(type, newProps, ...children.map(c => decodeEntities(c)))
+  return [type, newProps, children.map(c => decodeEntities(c))]
 })
 
-export default function parse(
+export const parse = (htmlStr: string) => html([htmlStr])
+export const render = parsed =>
+  typeof parsed === 'string'
+    ? parsed
+    : createElement(parsed[0], parsed[1], ...parsed[2].map(c => render(c)))
+
+export default function parseAndRender(
   htmlStr: string
-): React.DetailedReactHTMLElement<any, any> {
-  return html([htmlStr])
+): string | React.DetailedReactHTMLElement<any, any> {
+  return render(parse(htmlStr))
 }
