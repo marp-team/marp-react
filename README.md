@@ -14,7 +14,7 @@
 
 ## Before using Marp React
 
-This component is suited to create presentation tools integrated with Marp via React. Marp would create the static slide contents consist of plain HTML and CSS, so you have to notice that **it's not suited to control the content of your slide by React**.
+This component is suited to create presentation tools integrated with Marp by React. Marp would create the static slide contents consist of plain HTML and CSS, so you have to notice that **it's not suited to control the content of your slide via React**.
 
 React community has more appropriate and awesome tools for such that purpose. Typically these tools should help if you want to create a beautiful slide deck via React:
 
@@ -30,8 +30,9 @@ If you really think to need, you can even use Marp React within these frameworks
 ## ToDo
 
 - [x] Create repository
-- [ ] Implement React renderer component based on [our prototype][prototype]
+- [x] Implement React renderer component based on [our prototype][prototype]
 - [ ] Support rendering in worker for replacing [Marp Web](https://github.com/marp-team/marp-web) live preview feature
+- [ ] Support additional theme(s)
 
 ## Author
 
