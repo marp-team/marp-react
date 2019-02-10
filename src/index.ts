@@ -1,3 +1,3 @@
-import { Marp } from './marp'
+import { Marp, MarpWorker } from './marp'
 
-export { Marp, Marp as default }
+export { Marp, MarpWorker, Marp as default }
