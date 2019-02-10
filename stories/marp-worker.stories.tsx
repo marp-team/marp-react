@@ -15,7 +15,11 @@ const Editor: React.FC<{
 
   return (
     <div style={{ display: 'flex', height: '500px' }}>
-      <textarea value={buffer} onChange={handleChange} style={{ flex: 1 }} />
+      <textarea
+        value={buffer}
+        onChange={handleChange}
+        style={{ flex: 1, fontSize: '18px' }}
+      />
       <div style={{ flex: 1, overflowY: 'auto' }}>{children(buffer)}</div>
     </div>
   )
@@ -38,7 +42,7 @@ This renderer is using Web Worker to convert Marp Markdown.
 
 This deck has 200 math typesettings, but it has not blocked UI by conversion.
 
-Besides, it still keeps blazing-fast preview by frame-skipped rendering. Try typing fast!
+Besides, it still keeps blazing-fast preview by frame-skipped rendering. Try typing fast! :zap:
 
 ---
 <!-- _color: #ddd -->
@@ -48,6 +52,39 @@ Besides, it still keeps blazing-fast preview by frame-skipped rendering. Try typ
     return (
       <Editor markdown={markdown}>
         {markdown => <MarpWorker markdown={markdown} worker={worker} />}
+      </Editor>
+    )
+  })
+  .add('Custom renderer', () => {
+    let markdown = `# Custom renderer
+
+MarpWorker can specify initial rendering state.
+
+---
+<!-- _color: #ddd -->
+`
+    for (let i = 0; i < 200; i += 1) markdown += '\n$y=ax^2+bx+c$'
+
+    return (
+      <Editor markdown={markdown}>
+        {markdown => (
+          <MarpWorker markdown={markdown} worker={worker}>
+            {slides =>
+              slides ? (
+                slides.map(({ slide, comments }, i) => (
+                  <div key={i} style={{ margin: '40px' }}>
+                    <div style={{ boxShadow: '0 5px 10px #ccc' }}>{slide}</div>
+                    {comments.map((comment, ci) => (
+                      <p key={ci}>{comment}</p>
+                    ))}
+                  </div>
+                ))
+              ) : (
+                <p>Loading...</p>
+              )
+            }
+          </MarpWorker>
+        )}
       </Editor>
     )
   })
