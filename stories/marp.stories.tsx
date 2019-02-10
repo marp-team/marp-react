@@ -16,3 +16,22 @@ storiesOf('Marp', module)
       markdown={text('Markdown', '<!-- theme: gaia -->\n\n# Theme support')}
     />
   ))
+  .add('Custom renderer', () => (
+    <Marp
+      markdown={text(
+        'Markdown',
+        '# Page 1\n\n<!-- Comment (for presenter notes) -->\n\n---\n\n![bg](#fff8f0)\n\n# Page 2'
+      )}
+    >
+      {slides =>
+        slides.map(({ slide, comments }, i) => (
+          <div key={i} style={{ margin: '40px' }}>
+            <div style={{ boxShadow: '0 5px 10px #ccc' }}>{slide}</div>
+            {comments.map((comment, ci) => (
+              <p key={ci}>{comment}</p>
+            ))}
+          </div>
+        ))
+      }
+    </Marp>
+  ))

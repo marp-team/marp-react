@@ -1,7 +1,6 @@
-/* eslint-disable react/no-array-index-key */
 import { MarpOptions } from '@marp-team/marp-core'
 import React, { Fragment, useMemo } from 'react'
-import { useGlobalStyle, useMarp } from './hooks'
+import { useGlobalStyle, useIdentifier, useMarp } from './hooks'
 import parse from './parser'
 
 export type MarpRendererRenderProp = (
@@ -21,27 +20,14 @@ interface MarpRenderedSlide {
   comments: string[]
 }
 
-const defaultRenderer: MarpRendererRenderProp = slides => {
-  const r = slides.map((ret, i) => <Fragment key={i}>{ret.slide}</Fragment>)
-  return r
-}
+const defaultRenderer: MarpRendererRenderProp = slides =>
+  slides.map(({ slide }, i) => <Fragment key={i}>{slide}</Fragment>)
 
-export const Marp: React.FC<MarpRendererProps> = ({
-  children,
-  markdown,
-  options,
-  render,
-}) => {
-  const identifier = useMemo(
-    () =>
-      Math.random()
-        .toString(36)
-        .slice(-8),
-    []
-  )
+export const Marp: React.FC<MarpRendererProps> = props => {
+  const { children, markdown, options, render } = props
 
+  const identifier = useIdentifier()
   const contiainerClass = `marp-${identifier}`
-
   const opts = useMemo(
     (): MarpOptions => ({
       ...(options || {}),
@@ -55,9 +41,7 @@ export const Marp: React.FC<MarpRendererProps> = ({
     [options, contiainerClass]
   )
 
-  const marp = useMarp(opts)
-
-  const { html, css, comments } = marp.render(markdown || '', {
+  const { html, css, comments } = useMarp(opts).render(markdown || '', {
     htmlAsArray: true,
   })
 

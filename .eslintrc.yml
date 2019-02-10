@@ -21,10 +21,11 @@ rules:
   import/order:
     - error
     - newlines-between: never
-  react/prop-types: warn
   react/jsx-filename-extension:
     - error
     - extensions:
         - jsx
         - tsx
+  react/no-array-index-key: warn
+  react/prop-types: off
   react-hooks/rules-of-hooks: error

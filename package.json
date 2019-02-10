@@ -43,6 +43,7 @@
     "camelcase": "^5.0.0",
     "he": "^1.2.0",
     "htm": "^2.0.0",
+    "nanoid": "^2.0.1",
     "style-to-object": "^0.2.2"
   },
   "devDependencies": {
