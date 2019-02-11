@@ -11,11 +11,8 @@ export enum MarpWorkerCommand {
 const send = (worker: Worker, command: MarpWorkerCommand, ...args: any[]) =>
   worker.postMessage([identifier, command, ...args])
 
-export const render = (
-  worker: Worker,
-  markdown: string,
-  opts: MarpOptions = {}
-) => send(worker, MarpWorkerCommand.Render, markdown, opts)
+export const render = (worker: Worker, markdown: string, opts: MarpOptions) =>
+  send(worker, MarpWorkerCommand.Render, markdown, opts)
 
 export const listen = (
   worker: Worker,
