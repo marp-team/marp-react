@@ -83,7 +83,7 @@ export const MarpWorker: React.FC<MarpWorkerRendererProps> = props => {
   useEffect(
     () =>
       listen(worker, {
-        render: ({ html, css, comments }) => {
+        rendered: ({ html, css, comments }) => {
           const slides: MarpRenderedSlide[] = html.map((slide, i) => ({
             slide: (
               <div className={containerClass} key={i}>

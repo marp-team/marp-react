@@ -5,6 +5,7 @@ const identifier = 'marp'
 
 export enum MarpWorkerCommand {
   Render = 'render',
+  Rendered = 'rendered',
 }
 
 const send = (worker: Worker, command: MarpWorkerCommand, ...args: any[]) =>
@@ -31,10 +32,8 @@ export const listen = (
   return () => worker.removeEventListener('message', event)
 }
 
-export default function initialize() {
-  /* eslint-disable-next-line no-restricted-globals */
-  const worker: Worker = self as any
-
+/* eslint-disable-next-line no-restricted-globals */
+export default function initialize(worker: Worker = self as any) {
   return listen(worker, {
     render: (markdown: string, opts: MarpOptions) => {
       const marp = new Marp(opts)
@@ -42,7 +41,7 @@ export default function initialize() {
         htmlAsArray: true,
       })
 
-      send(worker, MarpWorkerCommand.Render, {
+      send(worker, MarpWorkerCommand.Rendered, {
         html: html.map(h => parse(h)),
         css,
         comments,

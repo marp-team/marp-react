@@ -2,5 +2,5 @@ import MarpWorker from '../src/worker'
 
 MarpWorker()
 
-// Dummy export
+// Dummy export for TypeScript compiler
 export default () => {}
