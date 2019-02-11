@@ -1,7 +1,15 @@
 import { Marp, MarpOptions } from '@marp-team/marp-core'
+import MarpReady from '@marp-team/marp-core/lib/browser.cjs'
 import nanoid from 'nanoid/generate'
-import { useEffect, useLayoutEffect, useMemo } from 'react'
+import { useLayoutEffect, useMemo } from 'react'
 
+interface MarpReactOptions {
+  containerClass: string
+  identifier: string
+  marpOptions: MarpOptions
+}
+
+const marpReadySymbol = Symbol('MarpReactReady')
 const identifierChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 
 export const useGlobalStyle = (id: string, css: string) => {
@@ -29,8 +37,38 @@ export const useGlobalStyle = (id: string, css: string) => {
 export const useIdentifier = (): string =>
   useMemo(() => nanoid(identifierChars, 8), [])
 
+export const useMarpOptions = (opts: MarpOptions = {}): MarpReactOptions => {
+  const identifier = useIdentifier()
+  const containerClass = `marp-${identifier}`
+
+  return useMemo(
+    (): MarpReactOptions => ({
+      containerClass,
+      identifier,
+      marpOptions: {
+        ...(opts || {}),
+        container: false,
+        markdown: {
+          ...((opts && opts.markdown) || {}),
+          xhtmlOut: true,
+        },
+        slideContainer: { tag: 'div', class: containerClass },
+      },
+    }),
+    [containerClass, identifier, opts]
+  )
+}
+
+export const useMarpReady = () =>
+  useLayoutEffect(() => {
+    if (!window || window[marpReadySymbol]) return
+
+    window[marpReadySymbol] = true
+    MarpReady()
+  }, [])
+
 export const useMarp = (opts: MarpOptions = {}): Marp => {
-  useEffect(Marp.ready)
+  useMarpReady()
   return useMemo(() => new Marp(opts), [opts])
 }
 
