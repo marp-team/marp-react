@@ -1,7 +1,7 @@
 import { MarpOptions } from '@marp-team/marp-core'
 import React, { Fragment, useEffect, useState } from 'react'
 import { useGlobalStyle, useMarpOptions, useMarpReady, useMarp } from './hooks'
-import parseAndRender, { render as renderParsedArray } from './parser'
+import * as parser from './parser'
 import { listen, render as renderInWorker } from './worker'
 
 export type MarpRendererRenderProp = (
@@ -58,7 +58,7 @@ export const Marp: React.FC<MarpRendererProps> = props => {
   const slides: MarpRenderedSlide[] = html.map((slide, i) => ({
     slide: (
       <div className={containerClass} key={i}>
-        {parseAndRender(slide)}
+        {parser.render(parser.parse(slide))}
       </div>
     ),
     html: slide,
@@ -87,7 +87,7 @@ export const MarpWorker: React.FC<MarpWorkerRendererProps> = props => {
           const slides: MarpRenderedSlide[] = html.map((slide, i) => ({
             slide: (
               <div className={containerClass} key={i}>
-                {renderParsedArray(slide)}
+                {parser.render(slide)}
               </div>
             ),
             html: slide,

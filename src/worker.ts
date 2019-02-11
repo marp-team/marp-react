@@ -32,7 +32,8 @@ export const listen = (
 }
 
 export default function initialize() {
-  const worker: Worker = <any>self
+  /* eslint-disable-next-line no-restricted-globals */
+  const worker: Worker = self as any
 
   return listen(worker, {
     render: (markdown: string, opts: MarpOptions) => {

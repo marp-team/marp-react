@@ -38,9 +38,3 @@ export const render = parsed =>
   typeof parsed === 'string'
     ? parsed
     : createElement(parsed[0], parsed[1], ...parsed[2].map(c => render(c)))
-
-export default function parseAndRender(
-  htmlStr: string
-): string | React.DetailedReactHTMLElement<any, any> {
-  return render(parse(htmlStr))
-}

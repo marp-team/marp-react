@@ -1,5 +1,6 @@
 env:
   browser: true
+  worker: true
 
 extends:
   - airbnb
