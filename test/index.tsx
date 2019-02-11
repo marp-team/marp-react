@@ -17,6 +17,21 @@ describe('Marp', () => {
   it('renders passed Markdown', () => {
     const marp = mount(<Marp markdown="# Hello" />)
     expect(marp.find('section > h1')).toHaveLength(1)
+
+    const markdown = `
+---
+theme: gaia
+class: lead
+---
+
+![bg](bg.png)
+
+# Marp Markdown
+    `.trim()
+
+    marp.setProps({ markdown })
+    expect(marp.find('section.lead')).not.toHaveLength(0)
+    expect(marp.find('figure')).toHaveLength(1)
   })
 
   it('injects global style for rendering Marp slide', () => {
@@ -65,16 +80,36 @@ describe('Marp', () => {
 
 describe('MarpWorker', () => {
   const Worker = jest.fn(() => {
-    const wk = new EventEmitter()
+    const wk: any = new EventEmitter()
 
     Object.assign(wk, {
+      // Queueing for test
+      queue: [],
+      interrupted: false,
+      interrupt: (state = true) => {
+        wk.interrupted = state
+
+        if (!state) {
+          wk.queue.forEach(q => wk.postQueue(q))
+          wk.queue = []
+        }
+      },
+
+      // Event emitter functions
       addEventListener: (e, listener) => wk.addListener(e, listener),
       removeEventListener: (e, listener) => wk.removeListener(e, listener),
-      postMessage: message => wk.emit('message', { data: message }),
+      postMessage: m => (wk.interrupted ? wk.queue.push(m) : wk.postQueue(m)),
+      postQueue: jest.fn(data => wk.emit('message', { data })),
     })
 
-    initializeWorker(wk as any)
-    return wk as Worker & EventEmitter
+    initializeWorker(wk)
+
+    return wk as Worker &
+      EventEmitter & {
+        queue: any[]
+        interrupt: (state?: boolean) => void
+        postQueue: jest.Mock
+      }
   })
 
   const marpWorker = (
@@ -90,9 +125,7 @@ describe('MarpWorker', () => {
   }
 
   it('renders passed Markdown', () => {
-    const worker = new Worker()
-
-    const marp = marpWorker({ worker, markdown: '# Test' })
+    const marp = marpWorker({ worker: new Worker(), markdown: '# Test' })
     expect(marp.find('section > h1')).toHaveLength(1)
 
     // Track change of markdown prop
@@ -103,5 +136,40 @@ describe('MarpWorker', () => {
     marp.update()
     expect(marp.find('section > h1')).toHaveLength(0)
     expect(marp.find('section > h2')).toHaveLength(1)
+  })
+
+  it('removes listener for worker when unmounted', () => {
+    const worker = new Worker()
+    const marp = marpWorker({ worker })
+
+    expect(worker.listeners('message')).toHaveLength(2) // Worker + component
+
+    marp.unmount()
+    expect(worker.listeners('message')).toHaveLength(1) // component only
+  })
+
+  it('queues new rendering while converting', () => {
+    const worker = new Worker()
+    const marp = marpWorker({ worker })
+
+    worker.interrupt()
+    act(() => {
+      marp.setProps({ markdown: '1' })
+    })
+    act(() => {
+      marp.setProps({ markdown: '2' })
+    })
+    act(() => {
+      marp.setProps({ markdown: '3' })
+    })
+    expect(worker.queue).toHaveLength(1)
+
+    act(() => {
+      worker.interrupt(false)
+    })
+    expect(marp.text()).toBe('3')
+
+    // 2nd rendering will be skipped
+    expect(worker.postQueue).not.toBeCalledWith(expect.arrayContaining(['2']))
   })
 })
