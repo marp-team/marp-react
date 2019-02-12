@@ -1,17 +1,12 @@
 # @marp-team/marp-react
 
 [![Storybook](https://bit.ly/2SrP6Hf)](https://marp-react.netlify.com/)
-[![CircleCI](https://img.shields.io/circleci/project/github/marp-team/marp-react/master.svg?style=flat-square)](https://circleci.com/gh/marp-team/marp-react/)
-[![Codecov](https://img.shields.io/codecov/c/github/marp-team/marp-react/master.svg?style=flat-square)](https://codecov.io/gh/marp-team/marp-react)
+[![CircleCI](https://img.shields.io/circleci/project/github/marp-team/marp-react/master.svg?style=flat-square&logo=circleci)](https://circleci.com/gh/marp-team/marp-react/)
+[![Codecov](https://img.shields.io/codecov/c/github/marp-team/marp-react/master.svg?style=flat-square&logo=codecov)](https://codecov.io/gh/marp-team/marp-react)
+[![npm](https://img.shields.io/npm/v/@marp-team/marp-react.svg?style=flat-square&logo=npm)](https://www.npmjs.com/package/@marp-team/marp-react)
 [![LICENSE](https://img.shields.io/github/license/marp-team/marp-react.svg?style=flat-square)](./LICENSE)
 
 **[Marp](https://marp.app) renderer component for React.**
-
-### :warning: Currently Marp React is under developing and not ready to use.
-
-> :point_right: See also [the prototyped example at CodeSandbox][prototype].
-
-[prototype]: https://codesandbox.io/s/kkryjmyy75
 
 ## Before using Marp React
 
@@ -28,9 +23,21 @@ React community has more appropriate and awesome tools for such that purpose. Ty
 
 If you really think to need, you can even use Marp React within these frameworks.
 
-## `<Marp>` component
+## Install
 
-This is a simple usage of Marp renderer. It renders slides via [inline SVG](https://marpit.marp.app/inline-svg) to `<div>` elements.
+```bash
+# yarn
+yarn add @marp-team/marp-core @marp-team/marp-react
+
+# npm
+npm install --save @marp-team/marp-core @marp-team/marp-react
+```
+
+## Usage
+
+### `<Marp>` component
+
+This is a simple usage of `<Marp>` renderer component. It renders slides via [inline SVG](https://marpit.marp.app/inline-svg) to `<div>` elements.
 
 ```jsx
 import { Marp } from '@marp-team/marp-react'
@@ -65,7 +72,7 @@ ReactDOM.render(<Marp markdown={markdown} />, document.getElementById('app'))
  */
 ```
 
-### Constructor option
+#### Constructor option
 
 [Marp constructor options](https://github.com/marp-team/marp-core#constructor-options) can change in `options` prop.
 
@@ -73,6 +80,7 @@ ReactDOM.render(<Marp markdown={markdown} />, document.getElementById('app'))
 <Marp
   markdown=":+1:"
   options={{
+    inlineSVG: false,
     emoji: {
       shortcode: true,
       unicode: true,
@@ -81,7 +89,7 @@ ReactDOM.render(<Marp markdown={markdown} />, document.getElementById('app'))
 />
 ```
 
-### Custom renderer
+#### Custom renderer
 
 You can use a custom renderer by passing `render` prop or `children` prop.
 
@@ -114,13 +122,14 @@ const customRenderer = slides => (
 
 > :information_source: See also [Render Props](https://reactjs.org/docs/render-props.html) in the document of React.
 
-## `<MarpWorker>` component _(Experimental)_
+### `<MarpWorker>` component _(Experimental)_
 
-For the best performance of the integrated web app, `<MarpWorker>` allows using [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) for Markdown conversion. It has a lot of advantages over a regular `<Marp>` component.
+For the best performance of the integrated web app, `<MarpWorker>` allows using [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) for Markdown conversion. It has a lot of clear advantages over a regular `<Marp>` component.
 
 - It does not block UI thread while converting large Markdown.
 - A blazing fast live preview by a simple but clever queueing system is available.
-- No longer need to include a huge Marp Core into main JS. Web Worker can be loaded lazily.
+- No longer need to include a huge Marp Core into main JS.
+- Web Worker will be loaded asynchronously, so the first paint will not block.
 
 ```jsx
 import { MarpWorker } from '@marp-team/marp-react'
@@ -141,13 +150,16 @@ ReactDOM.render(
 require('@marp-team/marp-react/lib/worker')()
 ```
 
+The renderer using worker may be default component of Marp React in future.
+
 ## ToDo
 
-- [x] Create repository
-- [x] Implement React renderer component based on [our prototype][prototype]
+- [x] Implement React renderer component based on [our prototype](https://codesandbox.io/s/kkryjmyy75)
 - [x] Support rendering in worker for replacing [Marp Web](https://github.com/marp-team/marp-web) live preview feature
   - [ ] Allow using worker via CDN (`importScript()`)
+  - [ ] Use worker hosted on CDN by default
 - [ ] Support additional theme(s)
+- [ ] Support swapping engine (e.g. [Marpit](https://github.com/marp-team/marpit))
 
 ## Author
 
