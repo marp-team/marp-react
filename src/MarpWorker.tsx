@@ -1,12 +1,12 @@
 import { MarpOptions } from '@marp-team/marp-core'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import useMarpOptions from './hooks/marp-options'
 import useMarpReady from './hooks/marp-ready'
 import useStyle from './hooks/style'
 import { stylingForComponent } from './utils/marp'
 import * as parser from './utils/parser'
 import { listen, send } from './utils/worker'
-import { MarpRendererProps, MarpRenderedSlide, defaultRenderer } from './Marp'
+import { MarpRendererProps, MarpRenderedSlide } from './Marp'
 
 export interface MarpWorkerRendererProps extends MarpRendererProps {
   children?: MarpWorkerRendererRenderProp
@@ -18,13 +18,13 @@ export type MarpWorkerRendererRenderProp = (
   slides: MarpRenderedSlide[] | undefined
 ) => React.ReactNode
 
-const defaultWorkerRenderer: MarpWorkerRendererRenderProp = slides =>
-  slides && defaultRenderer(slides)
+const defaultRenderer: MarpWorkerRendererRenderProp = slides =>
+  slides && slides.map(({ slide }, i) => <Fragment key={i}>{slide}</Fragment>)
 
 export const MarpWorker: React.FC<MarpWorkerRendererProps> = props => {
   const { children, markdown, options, render, worker } = props
   const { identifier, containerClass, marpOptions } = useMarpOptions(options)
-  const renderer = render || children || defaultWorkerRenderer
+  const renderer = render || children || defaultRenderer
 
   const [rendered, setRendered] = useState<React.ReactNode>(renderer(undefined))
   const [style, setStyle] = useState('')

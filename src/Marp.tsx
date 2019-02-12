@@ -22,7 +22,7 @@ export interface MarpRenderedSlide {
   comments: string[]
 }
 
-export const defaultRenderer: MarpRendererRenderProp = slides =>
+const defaultRenderer: MarpRendererRenderProp = slides =>
   slides.map(({ slide }, i) => <Fragment key={i}>{slide}</Fragment>)
 
 export const Marp: React.FC<MarpRendererProps> = props => {
