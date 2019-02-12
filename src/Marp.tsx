@@ -1,6 +1,8 @@
 import { MarpOptions } from '@marp-team/marp-core'
 import React, { Fragment } from 'react'
-import { useStyle, useMarpOptions, useMarp } from './utils/hooks'
+import useMarpOptions from './hooks/marp-options'
+import useMarp from './hooks/marp'
+import useStyle from './hooks/style'
 import { stylingForComponent } from './utils/marp'
 import * as parser from './utils/parser'
 

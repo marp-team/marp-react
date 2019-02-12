@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react'
 import React, { useState } from 'react'
-import { MarpWorker } from '../src/index'
+import MarpWorker from '../src/MarpWorker'
 import Worker from './marp.worker'
 
 const worker = new Worker()

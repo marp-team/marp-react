@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react'
 import { withKnobs, text } from '@storybook/addon-knobs'
 import React from 'react'
-import { Marp } from '../src/index'
+import Marp from '../src/Marp'
 
 storiesOf('Marp', module)
   .addDecorator(withKnobs({ escapeHTML: false }))
