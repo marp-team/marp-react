@@ -2,14 +2,13 @@ import EventEmitter from 'events'
 import { mount, ReactWrapper } from 'enzyme'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
-import { Marp, MarpWorker } from '../src/index'
-import { MarpWorkerRendererProps } from '../src/marp'
+import { Marp, MarpWorker, MarpWorkerRendererProps } from '../src/index'
 import initializeWorker from '../src/worker'
 
 interface WorkerMock extends Worker, EventEmitter {
-  queue: any[]
   interrupt: (state?: boolean) => void
   postQueue: jest.Mock
+  queue: any[]
 }
 
 beforeEach(() => {
