@@ -22,6 +22,7 @@
   "sideEffects": false,
   "types": "types/index.d.ts",
   "files": [
+    "dist/",
     "lib/",
     "module/",
     "types/"
@@ -29,6 +30,7 @@
   "scripts": {
     "build:cjs": "rimraf lib && tsc --module commonjs --outDir lib",
     "build:module": "rimraf module && tsc --module esnext --outDir module",
+    "build:worker": "rimraf dist && webpack --mode production",
     "check:audit": "yarn audit",
     "check:ts": "tsc --noEmit",
     "format": "prettier \"**/*.{css,js,json,jsx,md,scss,ts,tsx,yaml,yml}\"",
@@ -57,7 +59,7 @@
     "@storybook/addons": "^4.1.11",
     "@storybook/react": "^4.1.11",
     "@types/enzyme": "^3.1.17",
-    "@types/jest": "^24.0.0",
+    "@types/jest": "^24.0.1",
     "@types/react": "^16.8.2",
     "@types/storybook__react": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^1.3.0",
@@ -82,6 +84,8 @@
     "ts-jest": "^23.10.5",
     "ts-loader": "^5.3.3",
     "typescript": "^3.3.3",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3",
     "worker-loader": "^2.0.0"
   },
   "peerDependencies": {
