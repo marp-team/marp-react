@@ -1,5 +1,5 @@
 import { Marp } from '@marp-team/marp-core'
-import { parse } from './utils/parser'
+import parse from './utils/parse'
 import { listen, send } from './utils/worker'
 
 /* eslint-disable-next-line no-restricted-globals */

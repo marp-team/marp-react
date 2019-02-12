@@ -4,7 +4,7 @@ import useMarpOptions from './hooks/marp-options'
 import useMarpReady from './hooks/marp-ready'
 import useStyle from './hooks/style'
 import { stylingForComponent } from './utils/marp'
-import * as parser from './utils/parser'
+import renderToReact from './utils/render'
 import { listen, send } from './utils/worker'
 import { MarpRendererProps, MarpRenderedSlide } from './Marp'
 
@@ -42,7 +42,7 @@ export const MarpWorker: React.FC<MarpWorkerRendererProps> = props => {
               slides.map((slide, i) => ({
                 slide: (
                   <div className={containerClass} key={i}>
-                    {parser.render(slide)}
+                    {renderToReact(slide)}
                   </div>
                 ),
                 comments: comments[i],
