@@ -122,7 +122,17 @@ For the best performance of the integrated web app, `<MarpWorker>` allows using 
 - No longer need to include a huge Marp Core into main JS. Web Worker can be loaded lazily.
 
 ```jsx
-<MarpWorker worker={new Worker('worker.js')} markdown="# Hello, Marp Worker!" />
+import { MarpWorker } from '@marp-team/marp-react'
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+ReactDOM.render(
+  <MarpWorker
+    worker={new Worker('worker.js')}
+    markdown="# Hello, Marp Worker!"
+  />,
+  document.getElementById('app')
+)
 ```
 
 ```javascript
