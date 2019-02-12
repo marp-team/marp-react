@@ -135,6 +135,7 @@ require('@marp-team/marp-react/lib/worker')()
 - [x] Create repository
 - [x] Implement React renderer component based on [our prototype][prototype]
 - [x] Support rendering in worker for replacing [Marp Web](https://github.com/marp-team/marp-web) live preview feature
+  - [ ] Allow using worker via CDN (`importScript()`)
 - [ ] Support additional theme(s)
 
 ## Author
