@@ -1,6 +1,6 @@
 {
   "name": "@marp-team/marp-react",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Marp renderer component for React",
   "license": "MIT",
   "author": {
