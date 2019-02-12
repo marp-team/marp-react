@@ -6,6 +6,12 @@ import { Marp, MarpWorker } from '../src/index'
 import { MarpWorkerRendererProps } from '../src/marp'
 import initializeWorker from '../src/worker'
 
+interface WorkerMock extends Worker, EventEmitter {
+  queue: any[]
+  interrupt: (state?: boolean) => void
+  postQueue: jest.Mock
+}
+
 beforeEach(() => {
   jest.clearAllMocks()
 
@@ -57,7 +63,6 @@ class: lead
       expect(renderer).toBeCalledWith([
         expect.objectContaining({
           slide: expect.anything(),
-          html: expect.stringContaining('section'),
           comments: ['comment'],
         }),
       ])
@@ -70,7 +75,6 @@ class: lead
       expect(renderer).toBeCalledWith([
         expect.objectContaining({
           slide: expect.anything(),
-          html: expect.stringContaining('section'),
           comments: ['comment'],
         }),
       ])
@@ -103,13 +107,7 @@ describe('MarpWorker', () => {
     })
 
     initializeWorker(wk)
-
-    return wk as Worker &
-      EventEmitter & {
-        queue: any[]
-        interrupt: (state?: boolean) => void
-        postQueue: jest.Mock
-      }
+    return wk as WorkerMock
   })
 
   const marpWorker = (

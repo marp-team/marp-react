@@ -1,8 +1,8 @@
 import { MarpOptions } from '@marp-team/marp-core'
 import React, { Fragment, useEffect, useState } from 'react'
-import { useGlobalStyle, useMarpOptions, useMarpReady, useMarp } from './hooks'
-import * as parser from './parser'
-import { listen, render as renderInWorker } from './worker'
+import { useStyle, useMarpOptions, useMarpReady, useMarp } from './utils/hooks'
+import * as parser from './utils/parser'
+import { listen, send } from './utils/worker'
 
 export type MarpRendererRenderProp = (
   slides: MarpRenderedSlide[]
@@ -15,26 +15,25 @@ export interface MarpRendererProps {
   render?: MarpRendererRenderProp
 }
 
-export type MarpRendererWorkerRenderProp = (
+export type MarpWorkerRendererRenderProp = (
   slides: MarpRenderedSlide[] | undefined
 ) => React.ReactNode
 
 export interface MarpWorkerRendererProps extends MarpRendererProps {
-  children?: MarpRendererWorkerRenderProp
-  render?: MarpRendererWorkerRenderProp
+  children?: MarpWorkerRendererRenderProp
+  render?: MarpWorkerRendererRenderProp
   worker: Worker
 }
 
 interface MarpRenderedSlide {
   slide: React.ReactNode
-  html: string
   comments: string[]
 }
 
 const defaultRenderer: MarpRendererRenderProp = slides =>
   slides.map(({ slide }, i) => <Fragment key={i}>{slide}</Fragment>)
 
-const defaultWorkerRenderer: MarpRendererWorkerRenderProp = slides =>
+const defaultWorkerRenderer: MarpWorkerRendererRenderProp = slides =>
   slides && defaultRenderer(slides)
 
 const stylingForComponent = (css: string, containerClass: string) => `${css}
@@ -50,10 +49,7 @@ export const Marp: React.FC<MarpRendererProps> = props => {
     htmlAsArray: true,
   })
 
-  useGlobalStyle(
-    `marp-style-${identifier}`,
-    stylingForComponent(css, containerClass)
-  )
+  useStyle(`marp-style-${identifier}`, stylingForComponent(css, containerClass))
 
   const slides: MarpRenderedSlide[] = html.map((slide, i) => ({
     slide: (
@@ -61,7 +57,6 @@ export const Marp: React.FC<MarpRendererProps> = props => {
         {parser.render(parser.parse(slide))}
       </div>
     ),
-    html: slide,
     comments: comments[i],
   }))
 
@@ -77,28 +72,29 @@ export const MarpWorker: React.FC<MarpWorkerRendererProps> = props => {
   const [style, setStyle] = useState('')
   const [queue, setQueue] = useState<[string, MarpOptions] | boolean>(false)
 
-  useGlobalStyle(`marp-style-${identifier}`, style)
+  useStyle(`marp-style-${identifier}`, style)
   useMarpReady()
 
   useEffect(
     () =>
       listen(worker, {
-        rendered: ({ html, css, comments }) => {
-          const slides: MarpRenderedSlide[] = html.map((slide, i) => ({
-            slide: (
-              <div className={containerClass} key={i}>
-                {parser.render(slide)}
-              </div>
-            ),
-            html: slide,
-            comments: comments[i],
-          }))
-
-          setRendered(renderer(slides))
+        rendered: ({ slides, css, comments }) => {
+          setRendered(
+            renderer(
+              slides.map((slide, i) => ({
+                slide: (
+                  <div className={containerClass} key={i}>
+                    {parser.render(slide)}
+                  </div>
+                ),
+                comments: comments[i],
+              }))
+            )
+          )
           setStyle(stylingForComponent(css, containerClass))
           setQueue(q => {
             if (q !== false && q !== true) {
-              renderInWorker(worker, ...q)
+              send(worker, 'render', ...q)
               return true
             }
             return false
@@ -113,11 +109,9 @@ export const MarpWorker: React.FC<MarpWorkerRendererProps> = props => {
       setQueue([markdown || '', marpOptions])
     } else {
       setQueue(true)
-      renderInWorker(worker, markdown || '', marpOptions)
+      send(worker, 'render', markdown || '', marpOptions)
     }
   }, [markdown, options, renderer, worker])
 
   return <>{rendered}</>
 }
-
-export default Marp
