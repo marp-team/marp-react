@@ -32,6 +32,7 @@ If you really think to need, you can even use Marp React within these frameworks
 This is a simple usage of Marp renderer. It renders slides via [inline SVG](https://marpit.marp.app/inline-svg) to `<div>` elements.
 
 ```jsx
+import { Marp } from '@marp-team/marp-react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -114,11 +115,11 @@ const customRenderer = slides => (
 
 ## `<MarpWorker>` component _(Experimental)_
 
-For the best UI experience of the integrated web app, the conversion logic of Markdown can be put into [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) by using `<MarpWorker>`. It has a lot of advantages over a regular `<Marp>` component.
+For the best performance of the integrated web app, `<MarpWorker>` allows using [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) for Markdown conversion. It has a lot of advantages over a regular `<Marp>` component.
 
-- UI-blocking by converting large Markdown will reduce to the minimum.
-- It allows blazing fast live preview by a simple but clever queueing.
-- A browser JS does not need to include Marp, and the worker JS can be [lazy loading](https://web.dev/fast/reduce-javascript-payloads-with-code-splitting).
+- It does not block UI thread while converting large Markdown.
+- A blazing fast live preview by a simple but clever queueing system is available.
+- No longer need to include a huge Marp Core into main JS. Web Worker can be loaded lazily.
 
 ```jsx
 <MarpWorker worker={new Worker('worker.js')} markdown="# Hello, Marp Worker!" />
