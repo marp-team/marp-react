@@ -2,6 +2,7 @@
 .vscode/
 coverage/
 lib/
+module/
 node_modules
 package.json
 storybook-static/

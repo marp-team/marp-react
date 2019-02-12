@@ -18,22 +18,24 @@
     "url": "https://github.com/marp-team/marp-react"
   },
   "main": "lib/index.js",
+  "module": "module/index.js",
   "sideEffects": false,
   "types": "types/index.d.ts",
   "files": [
     "lib/",
+    "module/",
     "types/"
   ],
   "scripts": {
-    "build": "yarn --silent clean && tsc",
+    "build:cjs": "rimraf lib && tsc --module commonjs --outDir lib",
+    "build:module": "rimraf module && tsc --module esnext --outDir module",
     "check:audit": "yarn audit",
     "check:ts": "tsc --noEmit",
-    "clean": "rimraf lib",
     "format": "prettier \"**/*.{css,js,json,jsx,md,scss,ts,tsx,yaml,yml}\"",
     "format:check": "yarn --silent format -c",
     "format:write": "yarn --silent format --write",
     "lint:js": "eslint \"**/*.{js,jsx,ts,tsx}\"",
-    "prepack": "npm-run-all --npm-path yarn --parallel check:* format:check lint:* test:coverage --parallel build types",
+    "prepack": "npm-run-all --npm-path yarn --parallel check:* format:check lint:* test:coverage --parallel build:* types",
     "preversion": "npm-run-all --npm-path yarn --parallel check:* format:check lint:* test:coverage",
     "storybook": "start-storybook -p 6006",
     "test": "jest",
