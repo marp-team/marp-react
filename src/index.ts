@@ -1,1 +1,12 @@
-export * from './marp'
+export {
+  Marp,
+  MarpRendererProps,
+  MarpRendererRenderProp,
+  MarpRenderedSlide,
+} from './Marp'
+
+export {
+  MarpWorker,
+  MarpWorkerRendererProps,
+  MarpWorkerRendererRenderProp,
+} from './MarpWorker'
