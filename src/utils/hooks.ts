@@ -12,7 +12,7 @@ interface MarpReactOptions {
 const marpReadySymbol = Symbol('MarpReactReady')
 const identifierChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 
-export const useGlobalStyle = (id: string, css: string) => {
+export const useStyle = (id: string, css: string) => {
   useLayoutEffect(() => {
     const style =
       document.getElementById(id) ||
@@ -71,5 +71,3 @@ export const useMarp = (opts: MarpOptions = {}): Marp => {
   useMarpReady()
   return useMemo(() => new Marp(opts), [opts])
 }
-
-export default { useGlobalStyle, useIdentifier, useMarp }

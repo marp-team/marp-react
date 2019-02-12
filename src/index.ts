@@ -1,3 +1,12 @@
-import { Marp, MarpWorker } from './marp'
+export {
+  Marp,
+  MarpRendererProps,
+  MarpRendererRenderProp,
+  MarpRenderedSlide,
+} from './Marp'
 
-export { Marp, MarpWorker, Marp as default }
+export {
+  MarpWorker,
+  MarpWorkerRendererProps,
+  MarpWorkerRendererRenderProp,
+} from './MarpWorker'
