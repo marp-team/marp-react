@@ -2,6 +2,7 @@
 
 [![CircleCI](https://img.shields.io/circleci/project/github/marp-team/marp-react/master.svg?style=flat-square)](https://circleci.com/gh/marp-team/marp-react/)
 [![Codecov](https://img.shields.io/codecov/c/github/marp-team/marp-react/master.svg?style=flat-square)](https://codecov.io/gh/marp-team/marp-react)
+[![Storybook](https://github.com/storybooks/press/blob/master/badges/storybook.svg)](https://marp-react.netlify.com/)
 [![LICENSE](https://img.shields.io/github/license/marp-team/marp-react.svg?style=flat-square)](./LICENSE)
 
 **[Marp](https://marp.app) renderer component for React.**
