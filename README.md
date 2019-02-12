@@ -152,6 +152,30 @@ require('@marp-team/marp-react/lib/worker')()
 
 The renderer using worker may be default component of Marp React in future.
 
+#### Initial rendering
+
+`<MarpWorker>`'s custom renderer might be called with `undefined` slides argument, unlike `<Marp>`. It means an initial rendering of the component while preparing worker.
+
+You may show waiting user a loading message as follows:
+
+```jsx
+<MarpWorker worker={new Worker('worker.js')} markdown="# Hello, Marp Worker!">
+  {slides =>
+    slides ? (
+      <div className="marp">
+        {slides.map(({ slide }) => (
+          <div className="slide" key={i}>
+            {slide}
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p>Loading Marp Worker...</p>
+    )
+  }
+</MarpWorker>
+```
+
 ## ToDo
 
 - [x] Implement React renderer component based on [our prototype](https://codesandbox.io/s/kkryjmyy75)
