@@ -1,9 +1,9 @@
 import { storiesOf } from '@storybook/react'
 import React, { useState } from 'react'
 import MarpWorker from '../src/MarpWorker'
-import Worker from './marp.worker'
+import MarpWorkerEntry from './marp.worker'
 
-const worker = new Worker()
+const worker = new MarpWorkerEntry()
 
 const largeMd = (baseMd: string) => {
   let markdown = `${baseMd}\n\n---\n<!-- _color: #ccc -->\n`
@@ -44,6 +44,19 @@ This renderer is using Web Worker to convert Marp Markdown.
       {markdown => <MarpWorker markdown={markdown} worker={worker} />}
     </Editor>
   ))
+  .add('Use worker via CDN', () => {
+    return (
+      <Editor
+        markdown={`
+# Use worker via CDN
+
+By default, MarpWorker uses prebuilt worker via jsDelivr CDN.
+        `.trim()}
+      >
+        {markdown => <MarpWorker markdown={markdown} />}
+      </Editor>
+    )
+  })
   .add('Large Markdown', () => (
     <Editor
       markdown={largeMd(

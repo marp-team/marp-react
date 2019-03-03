@@ -1,7 +1,6 @@
 import camelCase from 'camelcase'
 import { decode } from 'he'
 import htm from 'htm'
-import { createElement } from 'react'
 import styleToObject from 'style-to-object'
 
 const decodeEntities = <V>(v: V, isAttributeValue = false) =>
@@ -33,8 +32,6 @@ const html = htm.bind((type: string, props, ...children) => {
   return [type, newProps, children.map(c => decodeEntities(c))]
 })
 
-export const parse = (htmlStr: string) => html([htmlStr])
-export const render = parsed =>
-  typeof parsed === 'string'
-    ? parsed
-    : createElement(parsed[0], parsed[1], ...parsed[2].map(c => render(c)))
+export default function parse(htmlStr: string) {
+  return html([htmlStr])
+}
