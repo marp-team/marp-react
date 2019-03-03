@@ -142,7 +142,10 @@ import { MarpWorker } from '@marp-team/marp-react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-ReactDOM.render(<Marp markdown="MarpWorker" />, document.getElementById('app'))
+ReactDOM.render(
+  <MarpWorker markdown="# Hello, Marp Worker!" />,
+  document.getElementById('app')
+)
 ```
 
 #### Use custom worker
@@ -150,17 +153,7 @@ ReactDOM.render(<Marp markdown="MarpWorker" />, document.getElementById('app'))
 The custom worker may specify via `worker` prop.
 
 ```jsx
-import { MarpWorker } from '@marp-team/marp-react'
-import React from 'react'
-import ReactDOM from 'react-dom'
-
-ReactDOM.render(
-  <MarpWorker
-    worker={new Worker('worker.js')}
-    markdown="# Hello, Marp Worker!"
-  />,
-  document.getElementById('app')
-)
+<MarpWorker worker={new Worker('worker.js')} markdown="# Hello, Marp Worker!" />
 ```
 
 ```javascript
