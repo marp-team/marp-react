@@ -1,4 +1,4 @@
-import { createElement } from 'React'
+import { createElement } from 'react'
 
 export default function render(parsed) {
   return typeof parsed === 'string'
