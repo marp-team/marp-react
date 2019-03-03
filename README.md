@@ -131,6 +131,24 @@ For the best performance of the integrated web app, `<MarpWorker>` allows using 
 - No longer need to include a huge Marp Core into main JS.
 - Web Worker will be loaded asynchronously, so the first paint will not block.
 
+The renderer using worker may be default component of Marp React in future.
+
+#### Basic usage
+
+You can use it just by swapping from `<Marp>` to `<MarpWorker>`. By default, `<MarpWorker>` will use a pre-built worker via [jsDelivr](https://www.jsdelivr.com/) CDN.
+
+```jsx
+import { MarpWorker } from '@marp-team/marp-react'
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+ReactDOM.render(<Marp markdown="MarpWorker" />, document.getElementById('app'))
+```
+
+#### Use custom worker
+
+The custom worker may specify via `worker` prop.
+
 ```jsx
 import { MarpWorker } from '@marp-team/marp-react'
 import React from 'react'
@@ -149,8 +167,6 @@ ReactDOM.render(
 // worker.js
 require('@marp-team/marp-react/lib/worker')()
 ```
-
-The renderer using worker may be default component of Marp React in future.
 
 #### Initial rendering
 
@@ -180,8 +196,8 @@ You may show waiting user a loading message as follows:
 
 - [x] Implement React renderer component based on [our prototype](https://codesandbox.io/s/kkryjmyy75)
 - [x] Support rendering in worker for replacing [Marp Web](https://github.com/marp-team/marp-web) live preview feature
-  - [ ] Allow using worker via CDN (`importScript()`)
-  - [ ] Use worker hosted on CDN by default
+  - [x] Allow using worker via CDN (`importScript()`)
+  - [x] Use worker hosted on CDN by default
 - [ ] Support additional theme(s)
 - [ ] Support swapping engine (e.g. [Marpit](https://github.com/marp-team/marpit))
 
