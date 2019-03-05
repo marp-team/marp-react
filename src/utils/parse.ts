@@ -33,5 +33,8 @@ const html = htm.bind((type: string, props, ...children) => {
 })
 
 export default function parse(htmlStr: string) {
-  return html([htmlStr])
+  const lines = htmlStr.split('\n')
+  const breaks = [...Array(lines.length - 1)].map(() => '\n')
+
+  return html(lines, ...breaks)
 }
