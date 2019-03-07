@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix ignored whitespaces and line breaks in fenced code ([#4](https://github.com/marp-team/marp-react/issues/4), [#5](https://github.com/marp-team/marp-react/pull/5))
+
 ## v0.0.2 - 2019-03-03
 
 ### Changed
