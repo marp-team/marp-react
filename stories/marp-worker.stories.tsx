@@ -1,5 +1,6 @@
 import { storiesOf } from '@storybook/react'
-import React, { useState } from 'react'
+import { withKnobs, text } from '@storybook/addon-knobs'
+import React from 'react'
 import MarpWorker from '../src/MarpWorker'
 import MarpWorkerEntry from './marp.worker'
 
@@ -12,93 +13,59 @@ const largeMd = (baseMd: string) => {
   return markdown
 }
 
-const Editor: React.FC<{
-  children: (buffer: string) => any
-  markdown?: string
-}> = props => {
-  const { children, markdown } = props
-  const [buffer, setBuffer] = useState(markdown || '')
-  const handleChange = e => setBuffer(e.target.value)
-
-  return (
-    <div style={{ display: 'flex', height: '500px' }}>
-      <textarea
-        value={buffer}
-        onChange={handleChange}
-        style={{ flex: 1, fontSize: '18px' }}
-      />
-      <div style={{ flex: 1, overflowY: 'auto' }}>{children(buffer)}</div>
-    </div>
-  )
-}
-
 storiesOf('MarpWorker', module)
-  .add('Basic usage', () => (
-    <Editor
-      markdown={`
-# MarpWorker renderer
-
-This renderer is using Web Worker to convert Marp Markdown.
-    `.trim()}
-    >
-      {markdown => <MarpWorker markdown={markdown} worker={worker} />}
-    </Editor>
-  ))
+  .addDecorator(withKnobs({ escapeHTML: false }))
+  .add('Basic usage', () => {
+    const markdown = text(
+      'Markdown',
+      '# MarpWorker renderer\n\nThis renderer is using Web Worker to convert Marp Markdown.'
+    )
+    return <MarpWorker markdown={markdown} worker={worker} />
+  })
   .add('Use worker via CDN', () => {
-    return (
-      <Editor
-        markdown={`
-# Use worker via CDN
+    const markdown = text(
+      'Markdown',
+      '# Use worker via CDN\n\nBy default, MarpWorker uses prebuilt worker via jsDelivr CDN.'
+    )
+    return <MarpWorker markdown={markdown} />
+  })
+  .add('Large Markdown', () => {
+    const markdown = text(
+      'Markdown',
+      largeMd(
+        [
+          '# Large Markdown',
+          'This deck has 100 math typesettings, but it has not blocked UI by long-time conversion.',
+          'Besides, it still keeps blazing-fast preview by frame-skipped rendering. Try typing fast! :zap:',
+        ].join('\n\n')
+      )
+    )
+    return <MarpWorker markdown={markdown} worker={worker} />
+  })
+  .add('Custom renderer', () => {
+    const markdown = text(
+      'Markdown',
+      largeMd(
+        '# Custom renderer\n\nMarpWorker can specify initial rendering state.'
+      )
+    )
 
-By default, MarpWorker uses prebuilt worker via jsDelivr CDN.
-        `.trim()}
-      >
-        {markdown => <MarpWorker markdown={markdown} />}
-      </Editor>
+    return (
+      <MarpWorker markdown={markdown} worker={worker}>
+        {slides =>
+          slides ? (
+            slides.map(({ slide, comments }, i) => (
+              <div key={i} style={{ margin: '40px' }}>
+                <div style={{ boxShadow: '0 5px 10px #ccc' }}>{slide}</div>
+                {comments.map((comment, ci) => (
+                  <p key={ci}>{comment}</p>
+                ))}
+              </div>
+            ))
+          ) : (
+            <p>Loading...</p>
+          )
+        }
+      </MarpWorker>
     )
   })
-  .add('Large Markdown', () => (
-    <Editor
-      markdown={largeMd(
-        `
-# Large Markdown
-
-This deck has 100 math typesettings, but it has not blocked UI by long-time conversion.
-
-Besides, it still keeps blazing-fast preview by frame-skipped rendering. Try typing fast! :zap:
-        `.trim()
-      )}
-    >
-      {markdown => <MarpWorker markdown={markdown} worker={worker} />}
-    </Editor>
-  ))
-  .add('Custom renderer', () => (
-    <Editor
-      markdown={largeMd(
-        `
-# Custom renderer
-
-MarpWorker can specify initial rendering state.
-        `.trim()
-      )}
-    >
-      {markdown => (
-        <MarpWorker markdown={markdown} worker={worker}>
-          {slides =>
-            slides ? (
-              slides.map(({ slide, comments }, i) => (
-                <div key={i} style={{ margin: '40px' }}>
-                  <div style={{ boxShadow: '0 5px 10px #ccc' }}>{slide}</div>
-                  {comments.map((comment, ci) => (
-                    <p key={ci}>{comment}</p>
-                  ))}
-                </div>
-              ))
-            ) : (
-              <p>Loading...</p>
-            )
-          }
-        </MarpWorker>
-      )}
-    </Editor>
-  ))

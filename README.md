@@ -1,6 +1,6 @@
 # @marp-team/marp-react
 
-[![Storybook](https://bit.ly/2SrP6Hf)](https://marp-react.netlify.com/)
+[![Storybook](https://raw.githubusercontent.com/storybooks/brand/master/badge/badge-storybook.svg?sanitize=true)](https://marp-react.netlify.com/)
 [![CircleCI](https://img.shields.io/circleci/project/github/marp-team/marp-react/master.svg?style=flat-square&logo=circleci)](https://circleci.com/gh/marp-team/marp-react/)
 [![Codecov](https://img.shields.io/codecov/c/github/marp-team/marp-react/master.svg?style=flat-square&logo=codecov)](https://codecov.io/gh/marp-team/marp-react)
 [![npm](https://img.shields.io/npm/v/@marp-team/marp-react.svg?style=flat-square&logo=npm)](https://www.npmjs.com/package/@marp-team/marp-react)
