@@ -39,6 +39,27 @@ class: lead
     expect(marp.find('figure')).toHaveLength(1)
   })
 
+  it('renders highlighted fence correctly', () => {
+    const markdown = `
+\`\`\`js
+test({
+  foo: 0,
+  bar: 1,
+});
+\`\`\`
+`.trim()
+
+    const marp = mount(<Marp markdown={markdown} />)
+    expect(marp.text().trim()).toBe(
+      `
+test({
+  foo: 0,
+  bar: 1,
+});
+`.trim()
+    )
+  })
+
   it('injects global style for rendering Marp slide', () => {
     mount(<Marp />)
     expect(document.head.querySelector('style[id^="marp-style"]')).toBeTruthy()
@@ -164,7 +185,7 @@ describe('MarpWorker', () => {
     act(() => {
       worker.interrupt(false)
     })
-    expect(marp.text()).toBe('3')
+    expect(marp.text().trim()).toBe('3')
 
     // 2nd rendering will be skipped
     expect(worker.postQueue).not.toBeCalledWith(expect.arrayContaining(['2']))
