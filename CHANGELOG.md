@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## v0.0.3 - 2019-03-08
+
 ### Changed
 
 - Upgrade Storybook to v5 ([#6](https://github.com/marp-team/marp-react/pull/6))
