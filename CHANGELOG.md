@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade Storybook to v5 ([#6](https://github.com/marp-team/marp-react/pull/6))
+
 ### Fixed
 
 - Fix ignored whitespaces and line breaks in fenced code ([#4](https://github.com/marp-team/marp-react/issues/4), [#5](https://github.com/marp-team/marp-react/pull/5))
