@@ -69,3 +69,18 @@ storiesOf('MarpWorker', module)
       </MarpWorker>
     )
   })
+  .add('Multiple components', () => {
+    const left = text('Left', '# :arrow_left: Left')
+    const right = text('Right', '# Right :arrow_right:')
+
+    return (
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: 1 }}>
+          <MarpWorker markdown={left} worker={worker} />
+        </div>
+        <div style={{ flex: 1 }}>
+          <MarpWorker markdown={right} worker={worker} />
+        </div>
+      </div>
+    )
+  })
