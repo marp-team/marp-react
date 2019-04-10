@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade dependent packages to the latest version ([#9](https://github.com/marp-team/marp-react/pull/9))
+
 ## v0.0.3 - 2019-03-08
 
 ### Changed

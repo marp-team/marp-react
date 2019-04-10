@@ -14,6 +14,7 @@ const largeMd = (baseMd: string) => {
 }
 
 storiesOf('MarpWorker', module)
+  // TODO: Stop using addon-knobs to show real-time performance without debounce
   .addDecorator(withKnobs({ escapeHTML: false }))
   .add('Basic usage', () => {
     const markdown = text(
