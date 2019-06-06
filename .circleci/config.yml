@@ -1,5 +1,7 @@
 references:
   base: &base
+    docker:
+      - image: circleci/node:10.16.0
     working_directory: ~/marp-react
     steps:
       - run: node --version
@@ -16,7 +18,7 @@ references:
 
             [ -n "$YARN_IGNORE_ENGINES" ] && echo '--install.ignore-engines true' >> ~/.yarnrc || true
           environment:
-            YARN_VERSION: 1.12.3
+            YARN_VERSION: 1.16.0
 
       - checkout
 
@@ -64,19 +66,23 @@ references:
 
 version: 2
 jobs:
-  '10.15.1':
+  current:
     <<: *base
-    docker:
-      - image: circleci/node:10.15.1
 
   carbon:
     <<: *base
     docker:
       - image: circleci/node:carbon
 
+  erbium:
+    <<: *base
+    docker:
+      - image: circleci/node:12
+
 workflows:
   version: 2
   build:
     jobs:
-      - 10.15.1
+      - current
       - carbon
+      - erbium
