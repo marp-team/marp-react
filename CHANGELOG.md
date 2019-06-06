@@ -4,7 +4,7 @@
 
 ### Changed
 
-- Upgrade dependent packages to the latest version ([#9](https://github.com/marp-team/marp-react/pull/9))
+- Upgrade dependent packages to the latest version ([#9](https://github.com/marp-team/marp-react/pull/9), [#11](https://github.com/marp-team/marp-react/pull/11))
 
 ## v0.0.3 - 2019-03-08
 
