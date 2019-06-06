@@ -37,7 +37,7 @@ references:
 
       - run:
           name: Prettier formatting
-          command: yarn format:check
+          command: yarn check:format
 
       - run:
           name: ESLint
