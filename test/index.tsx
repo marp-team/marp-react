@@ -132,7 +132,7 @@ describe('MarpWorker', () => {
     let mounted
 
     act(() => {
-      mounted = mount(<MarpWorker {...props} />)
+      mounted = mount(<MarpWorker {...props} />) // eslint-disable-line react/jsx-props-no-spreading
     })
 
     return mounted.update()

@@ -8,9 +8,6 @@ extends:
   - prettier
   - prettier/@typescript-eslint
 
-parserOptions:
-  project: ./tsconfig.json
-
 plugins:
   - react-hooks
 
@@ -22,6 +19,7 @@ rules:
   import/order:
     - error
     - newlines-between: never
+  react/jsx-curly-newline: off
   react/jsx-filename-extension:
     - error
     - extensions:
