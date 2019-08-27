@@ -31,6 +31,7 @@ storiesOf('Marp', module)
               <p key={ci}>{comment}</p>
             ))}
           </div>
-        ))}
+        ))
+      }
     </Marp>
   ))
