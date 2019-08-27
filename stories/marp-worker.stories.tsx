@@ -65,8 +65,7 @@ storiesOf('MarpWorker', module)
             ))
           ) : (
             <p>Loading...</p>
-          )
-        }
+          )}
       </MarpWorker>
     )
   })
