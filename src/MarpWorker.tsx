@@ -49,31 +49,35 @@ export const MarpWorker: React.FC<MarpWorkerRendererProps> = props => {
 
   useEffect(
     () =>
-      listen(workerInstance, {
-        rendered: ({ slides, css, comments }) => {
-          setRendered(
-            renderer(
-              slides.map((slide, i) => ({
-                slide: (
-                  <div className={containerClass} key={i}>
-                    {renderToReact(slide)}
-                  </div>
-                ),
-                comments: comments[i],
-              }))
+      listen(
+        workerInstance,
+        {
+          rendered: ({ slides, css, comments }) => {
+            setRendered(
+              renderer(
+                slides.map((slide, i) => ({
+                  slide: (
+                    <div className={containerClass} key={i}>
+                      {renderToReact(slide)}
+                    </div>
+                  ),
+                  comments: comments[i],
+                }))
+              )
             )
-          )
-          setStyle(stylingForComponent(css, containerClass))
-          setQueue(q => {
-            if (q !== false && q !== true) {
-              send(workerInstance, 'render', ...q)
-              return true
-            }
-            return false
-          })
+            setStyle(stylingForComponent(css, containerClass))
+            setQueue(q => {
+              if (q !== false && q !== true) {
+                send(workerInstance, identifier, 'render', ...q)
+                return true
+              }
+              return false
+            })
+          },
         },
-      }),
-    [containerClass, renderer, workerInstance]
+        identifier
+      ),
+    [containerClass, options, renderer, workerInstance]
   )
 
   useEffect(() => {
@@ -81,7 +85,7 @@ export const MarpWorker: React.FC<MarpWorkerRendererProps> = props => {
       setQueue([markdown || '', marpOptions])
     } else {
       setQueue(true)
-      send(workerInstance, 'render', markdown || '', marpOptions)
+      send(workerInstance, identifier, 'render', markdown || '', marpOptions)
     }
   }, [markdown, options, renderer, workerInstance])
 

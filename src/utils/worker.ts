@@ -1,18 +1,32 @@
 import { MarpOptions } from '@marp-team/marp-core'
 
-const identifier = 'marp'
+const protocol = 'marp-react-v0'
 
-interface MarpWorkerCommand {
-  render(markdown: string, opts: MarpOptions): void
-  rendered(result: { slides: any[]; css: string; comments: string[][] }): void
+interface MarpWorkerEvent extends MessageEvent {
+  scope: string
 }
 
-export const listen = (worker: Worker, command: Partial<MarpWorkerCommand>) => {
-  const event = e => {
-    const [id, cmd] = e.data
+interface MarpWorkerCommand {
+  render(this: MarpWorkerEvent, markdown: string, opts: MarpOptions): void
+  rendered(
+    this: MarpWorkerEvent,
+    result: { slides: any[]; css: string; comments: string[][] }
+  ): void
+}
 
-    if (identifier !== id) return
-    if (command[cmd]) command[cmd](...e.data.slice(2))
+export const listen = (
+  worker: Worker,
+  command: Partial<MarpWorkerCommand>,
+  scope?: string
+) => {
+  const event = (e: MessageEvent) => {
+    const [protocolId, scoped, cmd] = e.data
+
+    if (protocol !== protocolId) return
+    if (scope && scope !== scoped) return
+    if (command[cmd]) {
+      command[cmd].apply({ ...e, scope: scoped }, e.data.slice(3))
+    }
   }
 
   worker.addEventListener('message', event)
@@ -21,6 +35,12 @@ export const listen = (worker: Worker, command: Partial<MarpWorkerCommand>) => {
 
 export const send = <T extends keyof MarpWorkerCommand>(
   worker: Worker,
+  scope: string,
   command: T,
-  ...args: MarpWorkerCommand[T] extends (...args: infer R) => any ? R : never
-) => worker.postMessage([identifier, command, ...args])
+  ...args: MarpWorkerCommand[T] extends (
+    this: MarpWorkerEvent,
+    ...args: infer R
+  ) => any
+    ? R
+    : never
+) => worker.postMessage([protocol, scope, command, ...args])

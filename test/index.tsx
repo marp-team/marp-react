@@ -111,12 +111,8 @@ describe('MarpWorker', () => {
       queue: [],
       interrupted: false,
       interrupt: (state = true) => {
+        if (!state) while (wk.queue.length > 0) wk.postQueue(wk.queue.shift())
         wk.interrupted = state
-
-        if (!state) {
-          wk.queue.forEach(q => wk.postQueue(q))
-          wk.queue = []
-        }
       },
 
       // Event emitter functions
