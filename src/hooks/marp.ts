@@ -2,7 +2,15 @@ import { Marp, MarpOptions } from '@marp-team/marp-core'
 import { useMemo } from 'react'
 import useMarpReady from './marp-ready'
 
-export default function useMarp(opts: MarpOptions = {}): Marp {
+export type MarpInitializer = (marp: Marp) => Marp
+
+export default function useMarp(
+  opts: MarpOptions = {},
+  init?: MarpInitializer
+): Marp {
   useMarpReady()
-  return useMemo(() => new Marp(opts), [opts])
+  return useMemo(() => (init ? init(new Marp(opts)) : new Marp(opts)), [
+    opts,
+    init,
+  ])
 }
