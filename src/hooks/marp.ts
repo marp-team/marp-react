@@ -9,7 +9,7 @@ export default function useMarp(
   init: MarpInitializer = marp => marp
 ): Marp {
   useMarpReady()
-  return useMemo(() => (init ? init(new Marp(opts)) : new Marp(opts)), [
+  return useMemo(() => init(new Marp(opts)), [opts, init])
     opts,
     init,
   ])
