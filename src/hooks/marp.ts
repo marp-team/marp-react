@@ -10,7 +10,4 @@ export default function useMarp(
 ): Marp {
   useMarpReady()
   return useMemo(() => init(new Marp(opts)), [opts, init])
-    opts,
-    init,
-  ])
 }
