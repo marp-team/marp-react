@@ -90,7 +90,7 @@
     "worker-loader": "^2.0.0"
   },
   "peerDependencies": {
-    "@marp-team/marp-core": ">=0.6.0",
+    "@marp-team/marp-core": ">=1.0.1",
     "react": ">=16.8.0"
   },
   "publishConfig": {

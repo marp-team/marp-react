@@ -50,12 +50,7 @@ test({
 `.trim()
 
     const marp = mount(<Marp markdown={markdown} />)
-    expect(
-      marp
-        .text()
-        .replace(/!function.*;/, '')
-        .trim()
-    ).toBe(
+    expect(marp.text().trim()).toBe(
       `
 test({
   foo: 0,
@@ -186,12 +181,7 @@ describe('MarpWorker', () => {
     act(() => {
       worker.interrupt(false)
     })
-    expect(
-      marp
-        .text()
-        .replace(/!function.*;/, '')
-        .trim()
-    ).toBe('3')
+    expect(marp.text().trim()).toBe('3')
 
     // 2nd rendering will be skipped
     expect(worker.postQueue).not.toBeCalledWith(expect.arrayContaining(['2']))
