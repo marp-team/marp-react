@@ -1,4 +1,4 @@
-import EventEmitter from 'events'
+import { EventEmitter } from 'events'
 import { mount, ReactWrapper } from 'enzyme'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
@@ -50,7 +50,12 @@ test({
 `.trim()
 
     const marp = mount(<Marp markdown={markdown} />)
-    expect(marp.text().trim()).toBe(
+    expect(
+      marp
+        .text()
+        .replace(/!function.*;/, '')
+        .trim()
+    ).toBe(
       `
 test({
   foo: 0,
@@ -181,7 +186,12 @@ describe('MarpWorker', () => {
     act(() => {
       worker.interrupt(false)
     })
-    expect(marp.text().trim()).toBe('3')
+    expect(
+      marp
+        .text()
+        .replace(/!function.*;/, '')
+        .trim()
+    ).toBe('3')
 
     // 2nd rendering will be skipped
     expect(worker.postQueue).not.toBeCalledWith(expect.arrayContaining(['2']))
