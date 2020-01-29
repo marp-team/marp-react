@@ -82,5 +82,4 @@ workflows:
   build:
     jobs:
       - current
-      - carbon
       - erbium

@@ -24,6 +24,7 @@ export default function useMarpOptions(
       identifier,
       marpOptions: {
         ...(opts || {}),
+        script: false,
         container: false,
         markdown: {
           ...((opts && opts.markdown) || {}),
