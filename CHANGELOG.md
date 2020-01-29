@@ -6,7 +6,7 @@
 
 - Allow multiple `<MarpWorker>` components ([#7](https://github.com/marp-team/marp-react/issues/7), [#8](https://github.com/marp-team/marp-react/pull/8))
 - Upgrade Node v10.16.3 ([#16](https://github.com/marp-team/marp-react/pull/16))
-- Upgrade dependent packages to the latest version ([#9](https://github.com/marp-team/marp-react/pull/9), [#11](https://github.com/marp-team/marp-react/pull/11), [#16](https://github.com/marp-team/marp-react/pull/16))
+- Upgrade dependent packages to the latest version ([#9](https://github.com/marp-team/marp-react/pull/9), [#11](https://github.com/marp-team/marp-react/pull/11), [#16](https://github.com/marp-team/marp-react/pull/16), [#22](https://github.com/marp-team/marp-react/pull/22) by [@exKAZUu](https://github.com/exKAZUu))
 
 ## v0.0.3 - 2019-03-08
 
