@@ -44,7 +44,7 @@ storiesOf('Marp', module)
 ::: columns
 The delimiter \`:::\` should not be shown here.
 :::
-      `
+      `.trim()
       )}
       init={marp => marp.use(markdownItContainer, 'columns')}
     />
