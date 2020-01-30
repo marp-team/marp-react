@@ -122,18 +122,20 @@ const customRenderer = slides => (
 
 > :information_source: See also [Render Props](https://reactjs.org/docs/render-props.html) in the document of React.
 
-
 #### markdown-it plugins
 
 You can use `markdown-it` plugins by configuring `Marp` object via `init` prop.
 
 ```jsx
 <Marp
-  markdown={text('Markdown', `
+  markdown={text(
+    'Markdown',
+    `
 ::: columns
 The delimiter \`:::\` should not be shown here.
 :::
-  `)}
+  `
+  )}
   init={marp => marp.use(markdownItContainer, 'columns')}
 />
 ```
