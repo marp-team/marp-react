@@ -124,7 +124,7 @@ const customRenderer = slides => (
 
 #### markdown-it plugins
 
-You can use `markdown-it` plugins by configuring `Marp` object via `init` prop.
+You can use [markdown-it plugins](https://www.npmjs.com/search?q=keywords:markdown-it-plugin) by configuring `Marp` object via `init` prop.
 
 ```jsx
 <Marp
