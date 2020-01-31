@@ -41,7 +41,7 @@
     "storybook": "start-storybook -p 6006",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "version": "curl https://raw.githubusercontent.com/marp-team/marp/master/version.js | node && git add -A CHANGELOG.md"
+    "version": "curl https://raw.githubusercontent.com/marp-team/actions/v1/lib/scripts/version.js | node && git add -A CHANGELOG.md"
   },
   "dependencies": {
     "camelcase": "^5.3.1",
