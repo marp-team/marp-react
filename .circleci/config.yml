@@ -1,39 +1,56 @@
-references:
-  base: &base
+version: 2.1
+
+executors:
+  node:
+    parameters:
+      version:
+        type: string
+        default: lts
     docker:
-      - image: circleci/node:10.16.3
+      - image: circleci/node:<< parameters.version >>
     working_directory: ~/marp-react
+
+commands:
+  install:
+    parameters:
+      postinstall:
+        type: steps
+        default: []
+      yarn:
+        type: string
+        default: 1.21.1
     steps:
-      - run: node --version
-
-      # https://github.com/nodejs/docker-node/blob/master/docs/BestPractices.md#upgradingdowngrading-yarn
       - run:
-          name: Upgrade and configure yarn
-          command: |
-            sudo -E sh -c 'curl -fSLO --compressed "https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz" \
-                           && tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/ \
-                           && ln -snf /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn \
-                           && ln -snf /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg \
-                           && rm yarn-v$YARN_VERSION.tar.gz'
-          environment:
-            YARN_VERSION: 1.17.3
-
-      - checkout
+          name: Upgrade yarn for current user
+          command: cd ~ && yarn policies set-version << parameters.yarn >>
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "yarn.lock" }}-{{ .Branch }}
-            - v1-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "yarn.lock" }}-
-            - v1-dependencies-{{ .Environment.CIRCLE_JOB }}-
+            - v2-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "yarn.lock" }}-{{ .Branch }}
+            - v2-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "yarn.lock" }}-
+            - v2-dependencies-{{ .Environment.CIRCLE_JOB }}-
 
       - run: yarn install
-      - run: yarn audit
+      - steps: << parameters.postinstall >>
 
       - save_cache:
-          key: v1-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "yarn.lock" }}-{{ .Branch }}
+          key: v2-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "yarn.lock" }}-{{ .Branch }}
           paths:
-            - node_modules
             - ~/.cache/yarn
+
+  audit:
+    steps:
+      - checkout
+      - install:
+          postinstall:
+            - run: yarn audit
+
+  test:
+    steps:
+      - run: node --version
+
+      - checkout
+      - install
 
       - run:
           name: Prettier formatting
@@ -51,7 +68,7 @@ references:
           name: Jest
           command: yarn test:coverage --ci --maxWorkers=2 --reporters=default --reporters=jest-junit
           environment:
-            JEST_JUNIT_OUTPUT: tmp/test-results/jest.xml
+            JEST_JUNIT_OUTPUT_DIR: tmp/test-results
 
       - run: yarn codecov
 
@@ -62,24 +79,33 @@ references:
           path: ./coverage
           destination: coverage
 
-version: 2
 jobs:
-  current:
-    <<: *base
+  audit:
+    executor: node
+    steps:
+      - audit
 
-  carbon:
-    <<: *base
-    docker:
-      - image: circleci/node:carbon
+  test-node10:
+    executor:
+      name: node
+      version: '10'
+    steps:
+      - test
 
-  erbium:
-    <<: *base
-    docker:
-      - image: circleci/node:12
+  test-node12:
+    executor:
+      name: node
+      version: '12.14.1' # Specify LTS version for development
+    steps:
+      - test
 
 workflows:
-  version: 2
-  build:
+  test:
     jobs:
-      - current
-      - erbium
+      - audit
+      - test-node10:
+          requires:
+            - audit
+      - test-node12:
+          requires:
+            - audit
