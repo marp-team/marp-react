@@ -122,6 +122,24 @@ const customRenderer = slides => (
 
 > :information_source: See also [Render Props](https://reactjs.org/docs/render-props.html) in the document of React.
 
+#### markdown-it plugins
+
+You can use [markdown-it plugins](https://www.npmjs.com/search?q=keywords:markdown-it-plugin) by configuring `Marp` object via `init` prop.
+
+```jsx
+<Marp
+  markdown={text(
+    'Markdown',
+    `
+::: columns
+The delimiter \`:::\` should not be shown here.
+:::
+  `
+  )}
+  init={marp => marp.use(markdownItContainer, 'columns')}
+/>
+```
+
 ### `<MarpWorker>` component _(Experimental)_
 
 For the best performance of the integrated web app, `<MarpWorker>` allows using [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) for Markdown conversion. It has a lot of clear advantages over a regular `<Marp>` component.

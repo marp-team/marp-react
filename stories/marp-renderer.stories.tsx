@@ -1,6 +1,7 @@
 import { storiesOf } from '@storybook/react'
 import { withKnobs, text } from '@storybook/addon-knobs'
 import React from 'react'
+import markdownItContainer from 'markdown-it-container'
 import Marp from '../src/Marp'
 
 storiesOf('Marp', module)
@@ -34,4 +35,17 @@ storiesOf('Marp', module)
         ))
       }
     </Marp>
+  ))
+  .add('markdown-it plugin support', () => (
+    <Marp
+      markdown={text(
+        'Markdown',
+        `
+::: columns
+The delimiter \`:::\` should not be shown here.
+:::
+      `.trim()
+      )}
+      init={marp => marp.use(markdownItContainer, 'columns')}
+    />
   ))
