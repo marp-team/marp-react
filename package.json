@@ -20,15 +20,14 @@
   "main": "lib/index.js",
   "module": "module/index.js",
   "sideEffects": false,
-  "types": "types/index.d.ts",
+  "types": "lib/index.d.ts",
   "files": [
     "dist/",
     "lib/",
-    "module/",
-    "types/"
+    "module/"
   ],
   "scripts": {
-    "build:cjs": "rimraf lib && tsc --module commonjs --outDir lib",
+    "build:cjs": "rimraf lib && tsc --declaration --module commonjs --outDir lib",
     "build:module": "rimraf module && tsc --module esnext --outDir module",
     "build:worker": "rimraf dist && webpack --mode production",
     "check:audit": "yarn audit",
@@ -37,12 +36,11 @@
     "format": "prettier \"**/*.{css,js,json,jsx,md,scss,ts,tsx,yaml,yml}\"",
     "format:write": "yarn -s format --write",
     "lint:js": "eslint \"**/*.{js,jsx,ts,tsx}\"",
-    "prepack": "npm-run-all --parallel check:* lint:* test:coverage --parallel build:* types",
+    "prepack": "npm-run-all --parallel check:* lint:* test:coverage --parallel build:*",
     "preversion": "run-p check:* lint:* test:coverage",
     "storybook": "start-storybook -p 6006",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "types": "rimraf types && tsc --declaration --emitDeclarationOnly --outDir types",
     "version": "curl https://raw.githubusercontent.com/marp-team/marp/master/version.js | node && git add -A CHANGELOG.md"
   },
   "dependencies": {

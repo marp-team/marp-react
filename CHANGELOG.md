@@ -6,9 +6,13 @@
 
 - Add `init` prop to `<Marp>` component for using plugins for Marp ([#17](https://github.com/marp-team/marp-react/issues/17), [#20](https://github.com/marp-team/marp-react/pull/20) by [@exKAZUu](https://github.com/exKAZUu))
 
-### Changed
+### Fixed
 
 - Allow multiple `<MarpWorker>` components ([#7](https://github.com/marp-team/marp-react/issues/7), [#8](https://github.com/marp-team/marp-react/pull/8))
+- Emit declarations into `lib` directory to work type definition for partial scripts ([#21](https://github.com/marp-team/marp-react/issues/21), [#26](https://github.com/marp-team/marp-react/pull/26))
+
+### Changed
+
 - Upgrade Node v10.16.3 ([#16](https://github.com/marp-team/marp-react/pull/16))
 - Upgrade dependent packages to the latest version ([#9](https://github.com/marp-team/marp-react/pull/9), [#11](https://github.com/marp-team/marp-react/pull/11), [#16](https://github.com/marp-team/marp-react/pull/16), [#22](https://github.com/marp-team/marp-react/pull/22) by [@exKAZUu](https://github.com/exKAZUu))
 
