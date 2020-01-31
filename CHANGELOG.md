@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## v0.0.4 - 2020-01-31
+
 ### Added
 
 - Add `init` prop to `<Marp>` component for using plugins for Marp ([#17](https://github.com/marp-team/marp-react/issues/17), [#20](https://github.com/marp-team/marp-react/pull/20) by [@exKAZUu](https://github.com/exKAZUu))
