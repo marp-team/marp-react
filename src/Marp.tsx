@@ -1,7 +1,7 @@
 import { MarpOptions } from '@marp-team/marp-core'
 import React, { Fragment } from 'react'
 import useMarpOptions from './hooks/marp-options'
-import useMarp from './hooks/marp'
+import useMarp, { MarpInitializer } from './hooks/marp'
 import useStyle from './hooks/style'
 import { stylingForComponent } from './utils/marp'
 import parse from './utils/parse'
@@ -12,6 +12,7 @@ export interface MarpRendererProps {
   markdown?: string
   options?: MarpOptions
   render?: MarpRendererRenderProp
+  init?: MarpInitializer
 }
 
 export type MarpRendererRenderProp = (
@@ -27,9 +28,9 @@ const defaultRenderer: MarpRendererRenderProp = slides =>
   slides.map(({ slide }, i) => <Fragment key={i}>{slide}</Fragment>)
 
 export const Marp: React.FC<MarpRendererProps> = props => {
-  const { children, markdown, options, render } = props
+  const { children, markdown, options, render, init } = props
   const { containerClass, identifier, marpOptions } = useMarpOptions(options)
-  const marp = useMarp(marpOptions)
+  const marp = useMarp(marpOptions, init)
 
   const { html, css, comments } = marp.render(markdown || '', {
     htmlAsArray: true,
