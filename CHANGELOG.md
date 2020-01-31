@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Add `init` prop to `<Marp>` component for using plugins for Marp ([#17](https://github.com/marp-team/marp-react/issues/17), [#20](https://github.com/marp-team/marp-react/pull/20) by [@exKAZUu](https://github.com/exKAZUu))
+
 ### Changed
 
 - Allow multiple `<MarpWorker>` components ([#7](https://github.com/marp-team/marp-react/issues/7), [#8](https://github.com/marp-team/marp-react/pull/8))

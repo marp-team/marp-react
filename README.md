@@ -203,15 +203,6 @@ You may show waiting user a loading message as follows:
 </MarpWorker>
 ```
 
-## ToDo
-
-- [x] Implement React renderer component based on [our prototype](https://codesandbox.io/s/kkryjmyy75)
-- [x] Support rendering in worker for replacing [Marp Web](https://github.com/marp-team/marp-web) live preview feature
-  - [x] Allow using worker via CDN (`importScript()`)
-  - [x] Use worker hosted on CDN by default
-- [ ] Support additional theme(s)
-- [ ] Support swapping engine (e.g. [Marpit](https://github.com/marp-team/marpit))
-
 ## Author
 
 Managed by [@marp-team](https://github.com/marp-team).
