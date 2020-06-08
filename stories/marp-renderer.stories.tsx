@@ -49,3 +49,14 @@ The delimiter \`:::\` should not be shown here.
       init={marp => marp.use(markdownItContainer, 'columns')}
     />
   ))
+  .add('Broken tag', () => (
+    <Marp
+      options={{
+        html: true,
+        markdown: {
+          breaks: true,
+        },
+      }}
+      markdown={text('Markdown', `<small>aaa`)}
+    />
+  ))

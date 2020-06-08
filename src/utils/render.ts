@@ -1,7 +1,7 @@
 import { createElement } from 'react'
 
 export default function render(parsed) {
-  return typeof parsed === 'string'
-    ? parsed
-    : createElement(parsed[0], parsed[1], ...parsed[2].map(c => render(c)))
+  if (typeof parsed === 'string') return parsed
+  if (!Array.isArray(parsed[2])) return JSON.stringify(parsed)
+  return createElement(parsed[0], parsed[1], ...parsed[2].map((c) => render(c)))
 }
