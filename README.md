@@ -104,7 +104,7 @@ You can use a custom renderer by passing `render` prop or `children` prop.
 The example of custom renderer is here:
 
 ```jsx
-const customRenderer = slides => (
+const customRenderer = (slides) => (
   <div className="marp">
     {slides.map(({ slide, comments }, i) => (
       <div className="slide" key={i}>
@@ -136,7 +136,7 @@ The delimiter \`:::\` should not be shown here.
 :::
   `
   )}
-  init={marp => marp.use(markdownItContainer, 'columns')}
+  init={(marp) => marp.use(markdownItContainer, 'columns')}
 />
 ```
 
@@ -187,7 +187,7 @@ You may show waiting user a loading message as follows:
 
 ```jsx
 <MarpWorker worker={new Worker('worker.js')} markdown="# Hello, Marp Worker!">
-  {slides =>
+  {(slides) =>
     slides ? (
       <div className="marp">
         {slides.map(({ slide }) => (

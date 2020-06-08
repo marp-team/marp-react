@@ -20,7 +20,7 @@ export type MarpWorkerRendererRenderProp = (
 
 let memoizedCDNWorker: Worker | undefined
 
-const defaultRenderer: MarpWorkerRendererRenderProp = slides =>
+const defaultRenderer: MarpWorkerRendererRenderProp = (slides) =>
   slides && slides.map(({ slide }, i) => <Fragment key={i}>{slide}</Fragment>)
 
 const CDNWorker = () => {
@@ -34,7 +34,7 @@ const CDNWorker = () => {
   return memoizedCDNWorker
 }
 
-export const MarpWorker: React.FC<MarpWorkerRendererProps> = props => {
+export const MarpWorker: React.FC<MarpWorkerRendererProps> = (props) => {
   const { children, markdown, options, render, worker } = props
   const { identifier, containerClass, marpOptions } = useMarpOptions(options)
   const renderer = render || children || defaultRenderer
@@ -66,7 +66,7 @@ export const MarpWorker: React.FC<MarpWorkerRendererProps> = props => {
               )
             )
             setStyle(stylingForComponent(css, containerClass))
-            setQueue(q => {
+            setQueue((q) => {
               if (q !== false && q !== true) {
                 send(workerInstance, identifier, 'render', ...q)
                 return true

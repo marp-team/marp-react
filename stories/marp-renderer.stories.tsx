@@ -24,7 +24,7 @@ storiesOf('Marp', module)
         '# Page 1\n\n<!-- Comment (for presenter notes) -->\n\n---\n\n![bg](#fff8f0)\n\n# Page 2'
       )}
     >
-      {slides =>
+      {(slides) =>
         slides.map(({ slide, comments }, i) => (
           <div key={i} style={{ margin: '40px' }}>
             <div style={{ boxShadow: '0 5px 10px #ccc' }}>{slide}</div>
@@ -46,6 +46,6 @@ The delimiter \`:::\` should not be shown here.
 :::
       `.trim()
       )}
-      init={marp => marp.use(markdownItContainer, 'columns')}
+      init={(marp) => marp.use(markdownItContainer, 'columns')}
     />
   ))
