@@ -53,7 +53,7 @@ storiesOf('MarpWorker', module)
 
     return (
       <MarpWorker markdown={markdown} worker={worker}>
-        {slides =>
+        {(slides) =>
           slides ? (
             slides.map(({ slide, comments }, i) => (
               <div key={i} style={{ margin: '40px' }}>

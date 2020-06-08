@@ -10,7 +10,7 @@ const html = htm.bind((type: string, props, ...children) => {
   const newProps = { ...props }
 
   // Decode HTML entities in arguments
-  Object.keys(newProps).forEach(p => {
+  Object.keys(newProps).forEach((p) => {
     newProps[p] = decodeEntities(newProps[p], true)
   })
 
@@ -29,12 +29,12 @@ const html = htm.bind((type: string, props, ...children) => {
     newProps.style = objStyle
   }
 
-  return [type, newProps, children.map(c => decodeEntities(c))]
+  return [type, newProps, children.map((c) => decodeEntities(c))]
 })
 
 export default function parse(htmlStr: string) {
   const lines = htmlStr.split('\n')
   const breaks = [...Array(lines.length - 1)].map(() => '\n')
 
-  return html(lines, ...breaks)
+  return html((lines as any) as TemplateStringsArray, ...breaks)
 }

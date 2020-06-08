@@ -12,7 +12,7 @@ export default function initialize(worker: Worker = self as any) {
       })
 
       send(worker, this.scope, 'rendered', {
-        slides: html.map(h => parse(h)),
+        slides: html.map((h) => parse(h)),
         css,
         comments,
       })

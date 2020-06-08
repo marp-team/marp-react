@@ -1,5 +1,5 @@
 import { MarpOptions } from '@marp-team/marp-core'
-import nanoid from 'nanoid/generate'
+import { customAlphabet } from 'nanoid'
 import { useMemo } from 'react'
 
 interface MarpReactOptions {
@@ -9,8 +9,9 @@ interface MarpReactOptions {
 }
 
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+const nanoid = customAlphabet(chars, 8)
 
-const useIdentifier = (): string => useMemo(() => nanoid(chars, 8), [])
+const useIdentifier = (): string => useMemo(() => nanoid(), [])
 
 export default function useMarpOptions(
   opts: MarpOptions = {}

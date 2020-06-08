@@ -118,8 +118,8 @@ describe('MarpWorker', () => {
       // Event emitter functions
       addEventListener: (e, listener) => wk.addListener(e, listener),
       removeEventListener: (e, listener) => wk.removeListener(e, listener),
-      postMessage: m => (wk.interrupted ? wk.queue.push(m) : wk.postQueue(m)),
-      postQueue: jest.fn(data => wk.emit('message', { data })),
+      postMessage: (m) => (wk.interrupted ? wk.queue.push(m) : wk.postQueue(m)),
+      postQueue: jest.fn((data) => wk.emit('message', { data })),
     })
 
     initializeWorker(wk)

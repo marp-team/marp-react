@@ -6,7 +6,7 @@ export type MarpInitializer = (marp: Marp) => Marp
 
 export default function useMarp(
   opts: MarpOptions = {},
-  init: MarpInitializer = marp => marp
+  init: MarpInitializer = (marp) => marp
 ): Marp {
   useMarpReady()
   return useMemo(() => init(new Marp(opts)), [opts, init])
