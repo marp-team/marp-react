@@ -8,6 +8,8 @@
 
 **[Marp](https://marp.app) renderer component for React.**
 
+### :warning: Currently Marp React is inactive.
+
 ## Before using Marp React
 
 This component is suited to create presentation tools integrated with Marp by React. Marp would create the static slide contents consist of plain HTML and CSS, so you have to notice that **it's not suited to control the content of your slide via React**.
