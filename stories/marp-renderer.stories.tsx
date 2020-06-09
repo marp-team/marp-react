@@ -57,7 +57,7 @@ The delimiter \`:::\` should not be shown here.
           breaks: true,
         },
       }}
-      markdown={text('Markdown', `<small>aaa`)}
+      markdown={text('Markdown', `<div>aaa`)}
     />
   ))
   .add('Broken tag (no open)', () => (
@@ -68,6 +68,6 @@ The delimiter \`:::\` should not be shown here.
           breaks: true,
         },
       }}
-      markdown={text('Markdown', `aaa</small>`)}
+      markdown={text('Markdown', `aaa</div>`)}
     />
   ))

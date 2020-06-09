@@ -44,7 +44,7 @@
     "version": "curl https://raw.githubusercontent.com/marp-team/actions/v1/lib/scripts/version.js | node && git add -A CHANGELOG.md"
   },
   "dependencies": {
-    "camelcase": "^6.0.0",
+    "camelcase": "^5.3.1",
     "he": "^1.2.0",
     "htm": "^3.0.4",
     "nanoid": "^3.1.9",
